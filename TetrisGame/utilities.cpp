@@ -7,13 +7,14 @@
 #include <ctime>   // for seeding srand()
 
 #include "utilities.h"
+#include "gameConfig.h"
 
 using namespace std;
 
-int genRand(int top)
+int genRand(int max)
 {
 	srand(time(0));
-	return (rand() % top);
+	return (rand() % max);
 }
 
 
@@ -32,4 +33,26 @@ void gotoxy(int x, int y)
 void clrscr()
 {
 	system("cls");
+}
+
+void drawBorder()
+{
+	for (int col = 0; col <= gameConfig::GAME_WIDTH + 1; col++)
+	{
+		gotoxy(col, 0);
+		cout << '-';
+
+		gotoxy(col, gameConfig::GAME_HEIGHT + 1);
+		cout << '-';
+	}
+
+	for (int row = 0; row <= gameConfig::GAME_HEIGHT + 1; row++)
+	{
+		gotoxy(0, row);
+		cout << '|';
+
+		gotoxy(gameConfig::GAME_WIDTH + 1, row);
+		cout << '|';
+	}
+
 }

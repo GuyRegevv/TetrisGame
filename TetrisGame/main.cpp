@@ -11,46 +11,32 @@
 
 using namespace std;
 
-void drawBorder();
-
 int main()
 {
 	drawBorder();
 
 	point p(6, 1);
 	shape s;
+	char key = ' ';
+	int dir;
 
-	while (!_kbhit())
-	{
-		s.drawShape('#');
-		Sleep(500);
-		s.drawShape(' ');
-		s.moveShape(1);
-	}
+	do {
+		if (_kbhit())
+		{
+			key = _getch();
+			if (key == '9')
+			break;
+			else
+			{
+				if ((dir = s.getDirection(key)) != -1)
+					s.setDirection(dir);
 
-	//more thigs to check
+				s.drawShape('#');
+				Sleep(500);
+				s.drawShape(' ');
+				s.moveShape();
+			}
+		}
 
+	} while (key != '9');
 }
-
-void drawBorder()
-{
-	for (int col = 0; col <= gameConfig::GAME_WIDTH + 1; col++)
-	{
-		gotoxy(col, 0);
-		cout << '-';
-
-		gotoxy(col, gameConfig::GAME_HEIGHT + 1);
-		cout << '-';
-	}
-
-	for (int row = 0; row <= gameConfig::GAME_HEIGHT + 1; row++)
-	{
-		gotoxy(0, row);
-		cout << '|';
-
-		gotoxy(gameConfig::GAME_WIDTH + 1, row);
-		cout << '|';
-	}
-
-}
-

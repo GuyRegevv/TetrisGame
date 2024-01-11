@@ -8,18 +8,23 @@ class shape
 	int coordinates[8];
 	int rotate;
 	int direction;
+	//int color;
+	//int type;
 
 public:
 
 	shape();
 
 	void drawShape(char ch);
-	void moveShape(int direction);
+	void moveShape();
 	void coordinatesToShape(point body[4], int coords[8]);
+	int getDirection(char key);
+	void setDirection(int dir);
+	
+	enum type { O, I, J, L, S, Z, T};
 };
 
-	//int color;
-	//int type;
+
 
 
 /*	int O_blockCoordinates[8] = {6,1,6,2,7,1,7,2};
