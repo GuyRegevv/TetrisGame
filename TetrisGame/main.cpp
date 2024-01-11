@@ -28,6 +28,8 @@ int main()
 		s.moveShape(1);
 	}
 
+	//more thigs to check
+
 }
 
 void drawBorder()
