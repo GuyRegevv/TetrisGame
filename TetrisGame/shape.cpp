@@ -8,9 +8,11 @@
 #include <conio.h> //for kbh and getch
 #include <cstdlib> 
 
+
+gameConfig conf; // need to be fixed mooshon help us
+
 shape::shape() : direction(1), rotate(1)
 {
-	gameConfig conf;
 	coordinatesToShape(body, conf.coordsArr[genRand(7)]);
 }
 
@@ -30,10 +32,25 @@ void shape::drawShape(char ch)
 	}
 }
 
-void shape::moveShape(int direction)
+void shape::moveShape()
 {
 	for (int i = 0; i < 4; i++)
 	{
 		body[i].move(direction);
 	}
+}
+
+int shape::getDirection(char key)
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		if (key == conf.p1Keys[i])
+			return i;
+	}
+	return -1;
+}
+
+void shape::setDirection(int dir) 
+{
+	direction = dir;
 }

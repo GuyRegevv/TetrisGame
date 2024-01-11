@@ -36,25 +36,19 @@ void point::draw(char ch)
 void point::move(int dir)
 {
     switch (dir) {
-    case 0: // UP
-        --y;
-        if (y < 1) {
-            y = 24;
-        }
-        break;
-    case 1: // DOWN
+    case 0: // DOWN
         ++y;
         if (y > 18) {
             y = 1;
         }
         break;
-    case 2: // LEFT
+    case 1: // LEFT
         --x;
         if (x < 1) {
             x = 1;
         }
         break;
-    case 3: // RIGHT
+    case 2: // RIGHT
         ++x;
         if (x > 12) {
             x = 12;
