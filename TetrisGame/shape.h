@@ -1,6 +1,7 @@
 #pragma once
 
 #include "point.h"
+#include "board.h"
 
 class shape
 {
@@ -16,12 +17,19 @@ public:
 	shape();
 
 	void drawShape(char ch);
-	void moveShape();
+	bool moveShape(board& b);
 	void coordinatesToShape(point body[4], int coords[8]);
 	int getDirection(char key);
 	void setDirection(int dir);
-	
-	enum type { O, I, J, L, S, Z, T};
+	bool checkLeftBorder();
+	bool checkRightBorder();
+	bool checkDownBorder();
+	bool CanIMove(int dir, board& b);
+	point* getBody();
+
+
+
+	enum type { O, I, J, L, S, Z, T };
 };
 
 
@@ -34,4 +42,3 @@ public:
 	int S_blockCoordinates[8] = { 5,2,6,2,6,1,7,1 };
 	int Z_blockCoordinates[8] = { 5,1,6,1,6,2,7,2 };
 	int T_blockCoordinates[8] = { 5,1,6,1,6,2,7,1 }; */
-

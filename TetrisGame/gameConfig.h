@@ -12,8 +12,10 @@ public:
 
 	static constexpr int GAME_WIDTH = 12;
 	static constexpr int GAME_HEIGHT = 18;
+	
+	
 
-	string p1Keys = "zas";
+	string p1Keys = "xas";
 
 	int O_blockCoordinates[8] = { 6,1,6,2,7,1,7,2 };
 	int I_blockCoordinates[8] = { 5,1,6,1,7,1,8,1 };

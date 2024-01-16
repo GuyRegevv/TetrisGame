@@ -1,6 +1,3 @@
-#include "shape.h"
-#include "utilities.h"
-
 #include <iostream>
 #include <windows.h>
 #include <process.h>
@@ -8,10 +5,13 @@
 #include <conio.h> //for kbh and getch
 #include <cstdlib> 
 
+#include "shape.h"
+#include "utilities.h"
+#include "board.h"
 
 gameConfig conf; // need to be fixed mooshon help us
 
-shape::shape() : direction(1), rotate(1)
+shape::shape() : direction(0), rotate(1)
 {
 	coordinatesToShape(body, conf.coordsArr[genRand(7)]);
 }
@@ -20,7 +20,7 @@ void shape::coordinatesToShape(point _body[4], int coords[8])
 {
 	for (int i = 0; i < 4; i++)
 	{
-		_body[i].setXY(coords[i*2], coords[(i*2) + 1]);
+		_body[i].setXY(coords[i * 2], coords[(i * 2) + 1]);
 	}
 }
 
@@ -32,12 +32,22 @@ void shape::drawShape(char ch)
 	}
 }
 
-void shape::moveShape()
+bool shape::moveShape(board& b)
 {
-	for (int i = 0; i < 4; i++)
+	bool res = true;
+	if (CanIMove(direction, b))
 	{
-		body[i].move(direction);
+		for (int i = 0; i < 4; i++)
+		{
+			body[i].move(direction);
+		}
 	}
+	else
+		res = false;
+
+	setDirection(0);
+
+	return res;
 }
 
 int shape::getDirection(char key)
@@ -50,7 +60,69 @@ int shape::getDirection(char key)
 	return -1;
 }
 
-void shape::setDirection(int dir) 
+void shape::setDirection(int dir)
 {
-	direction = dir;
+	if (dir == 1 && this->checkLeftBorder() == false) //&& this->edged == false)
+		direction = dir;
+	if (dir == 2 && this->checkRightBorder() == false) //&& this->edged == false)
+		direction = dir;
+	if (dir == 0) //&& this->checkDownBorder() == false) //&& this->edged == false)
+		direction = dir; 
+	//direction = dir;
+	
 }
+
+bool shape::CanIMove(int dir, board& b)
+{
+		for (int i = 0; i < 4; i++)
+		{
+			point check;
+			check =  body[i];
+			check.move(dir);
+			if (b.existInMat(check))// check matrix
+			{
+				return false;
+			}
+		}
+
+		return true;
+}
+
+bool shape::checkLeftBorder()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (body[i].getX() == 1)//check x
+			return true;	
+	}
+	return false;
+}
+
+bool shape::checkRightBorder()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (body[i].getX() == gameConfig::GAME_WIDTH - 1)//check x
+		{
+			return true;
+		}
+	}
+	return false;
+}
+bool shape::checkDownBorder()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (body[i].getY() == gameConfig::GAME_HEIGHT - 1)//check x
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+point* shape::getBody()
+{
+	return this->body;
+}
+

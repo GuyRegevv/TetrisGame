@@ -29,7 +29,7 @@ void point::setXY(int x, int y)
 
 void point::draw(char ch)
 {
-    gotoxy(x, y);
+    gotoxy(x , y  );
     cout << ch << endl;
 }
 
@@ -38,23 +38,29 @@ void point::move(int dir)
     switch (dir) {
     case 0: // DOWN
         ++y;
-        if (y > 18) {
-            y = 1;
-        }
+ //       if (y > 18) {
+ //           y = 17;
+ //       }
         break;
     case 1: // LEFT
         --x;
-        if (x < 1) {
-            x = 1;
-        }
+ //       if (x < 1) {
+ //           x = 1;
+  //      }
         break;
     case 2: // RIGHT
         ++x;
-        if (x > 12) {
-            x = 12;
-        }
+  //      if (x > 12) {
+  //          x = 11;
+  //      }
         break;
     }
 }
-
-
+int point::getX()
+{
+    return x;
+}
+int point::getY()
+{
+    return y;
+}

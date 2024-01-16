@@ -8,7 +8,7 @@
 
 #include "utilities.h"
 #include "gameConfig.h"
-
+#include "point.h"
 using namespace std;
 
 int genRand(int max)

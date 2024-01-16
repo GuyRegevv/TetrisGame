@@ -8,35 +8,66 @@
 #include "utilities.h"
 #include "point.h"
 #include "shape.h"
+#include "board.h"
 
 using namespace std;
 
 int main()
 {
-	drawBorder();
+	board b1;
 
+	drawBorder();
+	
 	point p(6, 1);
-	shape s;
-	char key = ' ';
+	//shape s;
+	char key = 0;
 	int dir;
+	bool currentshape = true;
 
 	do {
-		if (_kbhit())
+		shape s;
+		currentshape = true;
+		while (currentshape)
 		{
-			key = _getch();
+			if (_kbhit())
+				key = _getch();
 			if (key == '9')
-			break;
+			{
+				gotoxy(0, 20);
+				exit(1);
+			}
 			else
 			{
-				if ((dir = s.getDirection(key)) != -1)
-					s.setDirection(dir);
+				
+					if ((dir = s.getDirection(key)) != -1)
+					{
+						s.setDirection(dir);
+						currentshape = s.moveShape(b1);
+					}
 
-				s.drawShape('#');
-				Sleep(500);
-				s.drawShape(' ');
-				s.moveShape();
-			}
+					s.drawShape('#');
+					Sleep(500);
+					s.drawShape(' ');
+					currentshape = s.moveShape(b1);
+					key = 0;
+					fflush(stdin);
+				}
+			
 		}
+
+		b1.update(s.getBody());
+		s.drawShape('#');
+		/*cout << endl;
+		cout << endl;
+		cout << endl;
+		cout << endl; cout << endl;
+		b1.print();
+		cout << endl;
+		cout << endl;
+		cout << "x: " << s.getBody()[0].getX() << "y: " << s.getBody()[0].getY() << endl;
+		Sleep(10000);
+		cout << endl;
+		cout << endl;*/
 
 	} while (key != '9');
 }
