@@ -13,7 +13,7 @@ gameConfig conf; // need to be fixed mooshon help us
 
 shape::shape() : direction(0), rotate(1)
 {
-	coordinatesToShape(body, conf.coordsArr[genRand(7)]);
+	coordinatesToShape(body, conf.coordsArr[genRand(4)]);
 }
 
 void shape::coordinatesToShape(point _body[4], int coords[8])
@@ -102,7 +102,7 @@ bool shape::checkRightBorder()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (body[i].getX() == gameConfig::GAME_WIDTH - 1)//check x
+		if (body[i].getX() == gameConfig::GAME_WIDTH)//check x //changed here from (GAME_WIDTH - 1) to (GAME_WIDTH)
 		{
 			return true;
 		}

@@ -34,7 +34,7 @@ int main()
 			if (key == '9')
 			{
 				gotoxy(0, 20);
-				exit(1);
+				gameOver();
 			}
 			else
 			{
@@ -57,6 +57,14 @@ int main()
 
 		b1.update(s.getBody());
 		s.drawShape('#');
+
+		if (b1.deleteLineAndUpdate()) //kind of working :/
+			b1.syncBoardToDisplay();
+		
+		if (b1.isGameOver())
+			gameOver();
+
+
 		/*cout << endl;
 		cout << endl;
 		cout << endl;

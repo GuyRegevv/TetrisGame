@@ -56,3 +56,11 @@ void drawBorder()
 	}
 
 }
+
+void gameOver()
+{
+	gotoxy(40, 10);
+	cout << " ||| game over bish! ||| ";
+	gotoxy(40, 20);
+	exit(1);
+}
