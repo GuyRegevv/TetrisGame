@@ -7,5 +7,6 @@
 void gotoxy(int x, int y);
 void clrscr();
 int genRand(int top);
-void drawBorder();
+void drawBorder(int offset);
 void gameOver();
+int printMenuAndSelect();

@@ -54,6 +54,9 @@ void point::move(int dir)
   //          x = 11;
   //      }
         break;
+    case 4 :
+        ++y;
+        break;
     }
 }
 int point::getX()

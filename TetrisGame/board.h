@@ -4,13 +4,13 @@ class board
 {
 
 	int usedCoords[20][12] = { 0 };
-
+	int offset;
 public:
 
-	board();
+	board(int);
 
 	bool existInMat(point val);
-	void print();
+	void print(int);
 	void update(point* p);
 	bool isGameOver();
 	bool deleteLineAndUpdate();

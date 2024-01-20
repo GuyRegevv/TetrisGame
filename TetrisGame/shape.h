@@ -7,14 +7,16 @@ class shape
 {
 	point body[4];
 	int coordinates[8];
+	string keys;
 	int rotate;
 	int direction;
+
 	//int color;
 	//int type;
 
 public:
 
-	shape();
+	shape(int pNum);
 
 	void drawShape(char ch);
 	bool moveShape(board& b);

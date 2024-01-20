@@ -5,29 +5,41 @@
 #include "shape.h"
 #include "utilities.h"
 
-board::board()
+board::board(int pNum)
 {
 	for (int i = 0; i < 12; i++)
 	{
 		usedCoords[19][i] = 1;
 	}
+	if (pNum == 1)
+		offset = gameConfig::P1OFFSET;
+	else
+		offset = gameConfig::P2OFFSET;
 }
 
 bool board::existInMat(point val)
 {
-	if (usedCoords[val.getY()][val.getX()] != 0) // changed x/y
+	if (usedCoords[val.getY() ][val.getX() - offset] != 0) // changed x/y
 		return true;
 	else
 		return false;
 }
 
-void board::print()
+void board::print(int pNum)
 {
-	for (int i = 0; i < 20; i++)
+	int offset = 0;
+	if (pNum == 2)
+		offset = 18;
+	
+	
+	for (int i = 0; i < 19; i++)
 	{
 		cout << endl;
 		for (int j = 0; j < 12; j++)
+		{
+			gotoxy(40 + offset + j, 0 + i);
 			cout << usedCoords[i][j] << " ";
+		}
 	}
 }
 
@@ -35,7 +47,7 @@ void board::update(point* p)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		usedCoords[p[i].getY()][p[i].getX()] = 1; //changed x/y
+		usedCoords[p[i].getY()][p[i].getX() - offset] = 1; //changed x/y
 	}
 }
 
@@ -78,7 +90,7 @@ void board::syncBoardToDisplay()
 	{
 		for (int j = 0; j < 12; j++)
 		{
-			gotoxy(j + 1, i);
+			gotoxy(j + 1 + offset, i);
 			if (usedCoords[i][j] == 0)
 				cout << " ";
 			else if (usedCoords[i][j] == 1)

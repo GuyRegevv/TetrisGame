@@ -11,9 +11,20 @@
 
 gameConfig conf; // need to be fixed mooshon help us
 
-shape::shape() : direction(0), rotate(1)
+shape::shape(int pNum) : direction(0), rotate(1)
 {
 	coordinatesToShape(body, conf.coordsArr[genRand(4)]);
+	if (pNum == 1)
+	{
+		keys = "xad";
+	}
+	else
+	{
+		keys = "mjl";
+		for (int i = 0; i < 4; i++)
+			body[i].setXY(body[i].getX() + gameConfig::P2OFFSET, body[i].getY());
+	}
+
 }
 
 void shape::coordinatesToShape(point _body[4], int coords[8])
@@ -54,7 +65,7 @@ int shape::getDirection(char key)
 {
 	for (int i = 0; i < 3; ++i)
 	{
-		if (key == conf.p1Keys[i])
+		if (key == keys[i])
 			return i;
 	}
 	return -1;
@@ -92,7 +103,7 @@ bool shape::checkLeftBorder()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (body[i].getX() == 1)//check x
+		if (body[i].getX() == 1 || body[i].getX() == 19)//check x
 			return true;	
 	}
 	return false;
@@ -102,7 +113,7 @@ bool shape::checkRightBorder()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (body[i].getX() == gameConfig::GAME_WIDTH)//check x //changed here from (GAME_WIDTH - 1) to (GAME_WIDTH)
+		if (body[i].getX() == gameConfig::GAME_WIDTH || body[i].getX() == gameConfig::GAME_WIDTH + 18)//check x //changed here from (GAME_WIDTH - 1) to (GAME_WIDTH)
 		{
 			return true;
 		}
