@@ -15,9 +15,7 @@ public:
 	bool isGameOver();
 	bool deleteLineAndUpdate();
 	void syncBoardToDisplay();
-
-
-
+	void handleFullLines(board& b1, board& b2);
 
 };
 

@@ -38,23 +38,14 @@ void point::move(int dir)
     switch (dir) {
     case 0: // DOWN
         ++y;
- //       if (y > 18) {
- //           y = 17;
- //       }
         break;
     case 1: // LEFT
         --x;
- //       if (x < 1) {
- //           x = 1;
-  //      }
         break;
     case 2: // RIGHT
         ++x;
-  //      if (x > 12) {
-  //          x = 11;
-  //      }
         break;
-    case 4 :
+    case 3 :
         ++y;
         break;
     }

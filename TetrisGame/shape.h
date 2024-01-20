@@ -2,6 +2,7 @@
 
 #include "point.h"
 #include "board.h"
+#include "color.h"
 
 class shape
 {
@@ -10,6 +11,7 @@ class shape
 	string keys;
 	int rotate;
 	int direction;
+	Color c;
 
 	//int color;
 	//int type;

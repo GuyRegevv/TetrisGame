@@ -5,18 +5,20 @@
 #include <conio.h> //for kbh and getch
 #include <cstdlib> // for rand() function
 #include <ctime>   // for seeding srand()
+#include <time.h>
 
 #include "utilities.h"
 #include "gameConfig.h"
 #include "point.h"
+#include "board.h"
+#include "shape.h"
+
 using namespace std;
 
 int genRand(int max)
-{
-	srand(time(0));
+{	
 	return (rand() % max);
 }
-
 
 void gotoxy(int x, int y)
 {
@@ -59,11 +61,13 @@ void drawBorder(int offset)
 
 void gameOver()
 {
+	setTextColor(Color::WHITE);
 	gotoxy(40, 10);
-	cout << " ||| game over bish! ||| ";
+	cout << " ||| game over ! ||| ";
 	gotoxy(40, 20);
 	exit(1);
 }
+
 int printMenuAndSelect()
 {	
 	int res;
@@ -74,3 +78,65 @@ int printMenuAndSelect()
 	cin >> res;
 	return res;
 }
+
+void handlePause()
+{
+	char check = 0;
+	gotoxy(50, 10);
+	cout << "Game Paused";
+	fflush(stdin);
+	while (true)
+	{
+		if (_kbhit())
+			check = _getch();
+		if (check == '2')
+		{
+			gotoxy(50, 10);
+			cout << "             ";
+			break;
+		}
+	}
+
+	check = 0;
+}
+
+void handleFullLines(board& b1, board& b2)
+{
+	if (b1.deleteLineAndUpdate())
+		b1.syncBoardToDisplay();
+
+	if (b2.deleteLineAndUpdate())
+		b2.syncBoardToDisplay();
+}
+
+void handleGameOver(board& b1, board& b2)
+{
+	setTextColor(Color::WHITE);
+	if (b1.isGameOver())
+		gameOver();
+
+	if (b2.isGameOver())
+		gameOver();
+}
+
+int handleGameStart() 
+{
+	int startingKey;
+	startingKey = printMenuAndSelect();
+	clrscr();
+
+	drawBorder(gameConfig::P1OFFSET);
+	drawBorder(gameConfig::P2OFFSET);
+
+	return startingKey;
+}
+
+void handleDrawing(shape& s1, shape& s2)
+{
+	s1.drawShape('#');
+	s2.drawShape('#');
+	Sleep(200);
+	s1.drawShape(' ');
+	s2.drawShape(' ');
+}
+

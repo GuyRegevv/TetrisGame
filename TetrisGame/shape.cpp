@@ -8,12 +8,14 @@
 #include "shape.h"
 #include "utilities.h"
 #include "board.h"
+#include "color.h"
 
-gameConfig conf; // need to be fixed mooshon help us
+gameConfig conf;
 
-shape::shape(int pNum) : direction(0), rotate(1)
+shape::shape(int pNum) : direction(3), rotate(1)
 {
-	coordinatesToShape(body, conf.coordsArr[genRand(4)]);
+	setTextColor((Color)(1 + genRand(14)));
+	coordinatesToShape(body, conf.coordsArr[genRand(7)]);
 	if (pNum == 1)
 	{
 		keys = "xad";
@@ -24,7 +26,6 @@ shape::shape(int pNum) : direction(0), rotate(1)
 		for (int i = 0; i < 4; i++)
 			body[i].setXY(body[i].getX() + gameConfig::P2OFFSET, body[i].getY());
 	}
-
 }
 
 void shape::coordinatesToShape(point _body[4], int coords[8])
@@ -46,17 +47,29 @@ void shape::drawShape(char ch)
 bool shape::moveShape(board& b)
 {
 	bool res = true;
-	if (CanIMove(direction, b))
+	if (direction == 0)
+	{
+		while (CanIMove(3, b))
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				body[i].move(3);
+			}
+		}
+	}
+
+	else if (CanIMove(direction, b))
 	{
 		for (int i = 0; i < 4; i++)
 		{
 			body[i].move(direction);
 		}
 	}
+
 	else
 		res = false;
 
-	setDirection(0);
+	setDirection(3); // was 0
 
 	return res;
 }
@@ -73,14 +86,12 @@ int shape::getDirection(char key)
 
 void shape::setDirection(int dir)
 {
-	if (dir == 1 && this->checkLeftBorder() == false) //&& this->edged == false)
+	if (dir == 1 && this->checkLeftBorder() == false)
 		direction = dir;
-	if (dir == 2 && this->checkRightBorder() == false) //&& this->edged == false)
+	if (dir == 2 && this->checkRightBorder() == false) 
 		direction = dir;
-	if (dir == 0) //&& this->checkDownBorder() == false) //&& this->edged == false)
-		direction = dir; 
-	//direction = dir;
-	
+	if (dir == 0 || dir ==3) 
+		direction = dir; 	
 }
 
 bool shape::CanIMove(int dir, board& b)
@@ -113,7 +124,7 @@ bool shape::checkRightBorder()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		if (body[i].getX() == gameConfig::GAME_WIDTH || body[i].getX() == gameConfig::GAME_WIDTH + 18)//check x //changed here from (GAME_WIDTH - 1) to (GAME_WIDTH)
+		if (body[i].getX() == gameConfig::GAME_WIDTH || body[i].getX() == gameConfig::GAME_WIDTH + 18)
 		{
 			return true;
 		}
@@ -136,4 +147,3 @@ point* shape::getBody()
 {
 	return this->body;
 }
-

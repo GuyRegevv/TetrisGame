@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="board.cpp" />
+    <ClCompile Include="color.cpp" />
     <ClCompile Include="gameConfig.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="point.cpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="board.h" />
+    <ClInclude Include="color.h" />
     <ClInclude Include="gameConfig.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="shape.h" />
