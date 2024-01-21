@@ -2,6 +2,8 @@
 
 #include "point.h"
 
+//utilitis contains all kind of functions without a direct relation to certain objects, and wrapper functions.
+
 class shape;
 class board;
 

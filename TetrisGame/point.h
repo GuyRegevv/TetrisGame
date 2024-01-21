@@ -2,6 +2,9 @@
 
 #include "gameConfig.h"
 
+//this class representd a single cube in the game map,
+//is being used to set and get coordinates, and for building the shape object.
+
 class point
 {
     int x, y;

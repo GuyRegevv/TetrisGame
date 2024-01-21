@@ -12,7 +12,9 @@
 
 gameConfig conf;
 
-shape::shape(int pNum) : direction(3), rotate(1)
+//constructor, every new shape gets a random color and shape.
+//the shape gets the keys controling it and ajdusting to current position (P1/P2)
+shape::shape(int pNum) : direction(3), rotate(1) 
 {
 	setTextColor((Color)(1 + genRand(14)));
 	coordinatesToShape(body, conf.coordsArr[genRand(7)]);
@@ -28,7 +30,8 @@ shape::shape(int pNum) : direction(3), rotate(1)
 	}
 }
 
-void shape::coordinatesToShape(point _body[4], int coords[8])
+
+void shape::coordinatesToShape(point _body[4], int coords[8]) //converting int coordinates array to points array.
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -44,7 +47,10 @@ void shape::drawShape(char ch)
 	}
 }
 
-bool shape::moveShape(board& b)
+// making sure that the next move is legal, 
+// one case for moving the shape one time for L/R keys,
+// other case moving until it cant move for DROP key.
+bool shape::moveShape(board& b) 
 {
 	bool res = true;
 	if (direction == 0)
@@ -74,7 +80,7 @@ bool shape::moveShape(board& b)
 	return res;
 }
 
-int shape::getDirection(char key)
+int shape::getDirection(char key) //converting keys controls string to directions
 {
 	for (int i = 0; i < 3; ++i)
 	{
@@ -94,7 +100,7 @@ void shape::setDirection(int dir)
 		direction = dir; 	
 }
 
-bool shape::CanIMove(int dir, board& b)
+bool shape::CanIMove(int dir, board& b) //checks if the place we want to move to, is free in the board matrix.
 {
 		for (int i = 0; i < 4; i++)
 		{
@@ -125,17 +131,6 @@ bool shape::checkRightBorder()
 	for (int i = 0; i < 4; i++)
 	{
 		if (body[i].getX() == gameConfig::GAME_WIDTH || body[i].getX() == gameConfig::GAME_WIDTH + 18)
-		{
-			return true;
-		}
-	}
-	return false;
-}
-bool shape::checkDownBorder()
-{
-	for (int i = 0; i < 4; i++)
-	{
-		if (body[i].getY() == gameConfig::GAME_HEIGHT - 1)//check x
 		{
 			return true;
 		}

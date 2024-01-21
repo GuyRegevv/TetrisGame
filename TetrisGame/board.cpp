@@ -5,7 +5,7 @@
 #include "shape.h"
 #include "utilities.h"
 
-board::board(int pNum)
+board::board(int pNum) //bottom line filled with 1's to represent the floor.
 {
 	for (int i = 0; i < 12; i++)
 	{
@@ -17,7 +17,7 @@ board::board(int pNum)
 		offset = gameConfig::P2OFFSET;
 }
 
-bool board::existInMat(point val)
+bool board::existInMat(point val) const //checking if that space is free
 {
 	if (usedCoords[val.getY() ][val.getX() - offset] != 0) // changed x/y
 		return true;
@@ -25,7 +25,7 @@ bool board::existInMat(point val)
 		return false;
 }
 
-void board::print(int pNum)
+void board::print(int pNum) const
 {
 	int offset = 0;
 	if (pNum == 2)
@@ -43,7 +43,7 @@ void board::print(int pNum)
 	}
 }
 
-void board::update(point* p)
+void board::update(point* p) //updates matrix once a shape reached down.
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -51,7 +51,7 @@ void board::update(point* p)
 	}
 }
 
-bool board::isGameOver()
+bool board::isGameOver() const //game over if shapes reached top line
 {
 	for (int i = 0; i < 12; i++)
 	{
@@ -62,7 +62,7 @@ bool board::isGameOver()
 	return false;
 }
 
-bool board::deleteLineAndUpdate()
+bool board::deleteLineAndUpdate() //once a full line is found, that line is deleted, then "bubbled" up to the top of the board. 
 {
 	bool isDeleted = false;
 	int height;
@@ -84,7 +84,7 @@ bool board::deleteLineAndUpdate()
 	return isDeleted;
 }
 
-void board::syncBoardToDisplay()
+void board::syncBoardToDisplay() //printing the current board state
 {
 	for (int i = 0; i < 19; i++)
 	{

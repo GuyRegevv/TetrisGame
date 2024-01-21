@@ -14,11 +14,6 @@ public:
 	static constexpr int GAME_HEIGHT = 18;
 	static constexpr int P1OFFSET = 0;
 	static constexpr int P2OFFSET = 18;
-	
-	
-
-	//string p1Keys = "xas";
-	//string p2Keys = "jkm";
 
 	int O_blockCoordinates[8] = { 6,1,6,2,7,1,7,2 };
 	int I_blockCoordinates[8] = { 6,1,6,2,6,3,6,4 };

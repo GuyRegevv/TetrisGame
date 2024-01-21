@@ -4,6 +4,11 @@
 #include "board.h"
 #include "color.h"
 
+// shape class is representing a single shape.
+// every diffrent shape is being made from an int array of coordinates, 
+// then its converted to a points array.
+// for exmaple: first and second values are the x,y of first point in shape body
+
 class shape
 {
 	point body[4];
@@ -12,9 +17,6 @@ class shape
 	int rotate;
 	int direction;
 	Color c;
-
-	//int color;
-	//int type;
 
 public:
 
@@ -27,22 +29,7 @@ public:
 	void setDirection(int dir);
 	bool checkLeftBorder();
 	bool checkRightBorder();
-	bool checkDownBorder();
 	bool CanIMove(int dir, board& b);
 	point* getBody();
 
-
-
-	enum type { O, I, J, L, S, Z, T };
 };
-
-
-
-
-/*	int O_blockCoordinates[8] = {6,1,6,2,7,1,7,2};
-	int I_blockCoordinates[8] = { 5,1,6,1,7,1,8,1 };
-	int J_blockCoordinates[8] = { 5,1,5,2,5,2,7,2 };
-	int L_blockCoordinates[8] = { 5,2,6,2,7,2,7,1 };
-	int S_blockCoordinates[8] = { 5,2,6,2,6,1,7,1 };
-	int Z_blockCoordinates[8] = { 5,1,6,1,6,2,7,2 };
-	int T_blockCoordinates[8] = { 5,1,6,1,6,2,7,1 }; */

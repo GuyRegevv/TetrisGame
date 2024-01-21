@@ -31,7 +31,6 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(hConsoleOutput, dwCursorPosition);
 }
 
-// function definition -- requires process.h
 void clrscr()
 {
 	system("cls");
@@ -73,13 +72,13 @@ int printMenuAndSelect()
 	int res;
 	cout << "(1) Start a new game" << endl;
 	cout << "(2) Continue a paused game" << endl;
-	cout << "(8) Present instructions and keys" << endl;
+	cout << "(8) Pause game" << endl;
 	cout << "(9) EXIT" << endl;
 	cin >> res;
 	return res;
 }
 
-void handlePause()
+void handlePause() //pausing game until '2' is selected
 {
 	char check = 0;
 	gotoxy(50, 10);
@@ -100,7 +99,7 @@ void handlePause()
 	check = 0;
 }
 
-void handleFullLines(board& b1, board& b2)
+void handleFullLines(board& b1, board& b2) //wrapper function
 {
 	if (b1.deleteLineAndUpdate())
 		b1.syncBoardToDisplay();
@@ -109,7 +108,7 @@ void handleFullLines(board& b1, board& b2)
 		b2.syncBoardToDisplay();
 }
 
-void handleGameOver(board& b1, board& b2)
+void handleGameOver(board& b1, board& b2) //wrapper function
 {
 	setTextColor(Color::WHITE);
 	if (b1.isGameOver())
@@ -119,7 +118,7 @@ void handleGameOver(board& b1, board& b2)
 		gameOver();
 }
 
-int handleGameStart() 
+int handleGameStart() //menu selection and drawing borders
 {
 	int startingKey;
 	startingKey = printMenuAndSelect();

@@ -33,7 +33,7 @@ void point::draw(char ch)
     cout << ch << endl;
 }
 
-void point::move(int dir)
+void point::move(int dir) //moving point by changing coordinats
 {
     switch (dir) {
     case 0: // DOWN
@@ -50,10 +50,12 @@ void point::move(int dir)
         break;
     }
 }
+
 int point::getX()
 {
     return x;
 }
+
 int point::getY()
 {
     return y;
