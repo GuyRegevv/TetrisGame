@@ -1,15 +1,5 @@
-/*#include <iostream>
-#include <windows.h>
-#include <process.h>
-#include <ostream>
-#include <conio.h> //for kbh and getch
-
-#include "gameConfig.h"
-
-#include "point.h"
-#include "shape.h"
-#include "board.h"
-*/
+//second commit
+//up to date
 #include "utilities.h"
 #include <iostream>
 #include "Starter.h"
