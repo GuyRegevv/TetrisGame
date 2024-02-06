@@ -9,13 +9,14 @@ class shape
 	int coordinates[8];
 	int rotate;
 	int direction;
-	//int color;
-	//int type;
+	Color c;
+	char symbol;
 
 public:
 
 	shape();
 
+	void drawShape();
 	void drawShape(char ch);
 	bool moveShape(board& b);
 	void coordinatesToShape(point body[4], int coords[8]);
@@ -26,6 +27,8 @@ public:
 	bool checkDownBorder();
 	bool CanIMove(int dir, board& b);
 	point* getBody();
+	void rotateShape();
+
 
 
 

@@ -57,10 +57,88 @@ void drawBorder()
 
 }
 
-void gameOver()
+int gameOver()
 {
 	gotoxy(40, 10);
-	cout << " ||| game over bish! ||| ";
+	cout << " ||| game over ! ||| " << endl;
 	gotoxy(40, 20);
-	exit(1);
+	int input = 0;
+	cout << "(0) End Game" << endl << "(1) New Game" << endl;
+	cin >> input;
+	return input;
 }
+
+int printMenuAndSelect()
+{	
+	int res;
+	cout << "(1) Start a new game" << endl;
+	cout << "(2) Continue a paused game" << endl;
+	cout << "(8) Pause game" << endl;
+	cout << "(9) EXIT" << endl;
+	cin >> res;
+	return res;
+}
+
+void handlePause() //pausing game until '2' is selected
+{
+	char check = 0;
+	gotoxy(50, 10);
+	cout << "Game Paused";
+	fflush(stdin);
+	while (true)
+	{
+		if (_kbhit())
+			check = _getch();
+		if (check == '2')
+		{
+			gotoxy(50, 10);
+			cout << "             ";
+			break;
+		}
+	}
+
+	check = 0;
+}
+
+void handleFullLines(board& b1, board& b2) //wrapper function
+{
+	if (b1.deleteLineAndUpdate())
+		b1.syncBoardToDisplay();
+
+	if (b2.deleteLineAndUpdate())
+		b2.syncBoardToDisplay();
+}
+
+int handleGameOver(board& b1, board& b2) //wrapper function
+{
+	setTextColor(Color::WHITE);
+	if (b1.isGameOver())
+		return gameOver();
+
+	if (b2.isGameOver())
+		return gameOver();
+
+	return 2;
+}
+
+int handleGameStart() //menu selection and drawing borders
+{
+	int startingKey;
+	startingKey = printMenuAndSelect();
+	clrscr();
+
+	drawBorder(gameConfig::P1OFFSET);
+	drawBorder(gameConfig::P2OFFSET);
+
+	return startingKey;
+}
+
+void handleDrawing(shape& s1, shape& s2)
+{
+	s1.drawShape();
+	s2.drawShape();
+	Sleep(100);
+	s1.drawShape(' ');
+	s2.drawShape(' ');
+}
+

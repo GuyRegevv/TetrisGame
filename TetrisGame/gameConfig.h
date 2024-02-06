@@ -24,6 +24,7 @@ public:
 	int S_blockCoordinates[8] = { 5,2,6,2,6,1,7,1 };
 	int Z_blockCoordinates[8] = { 5,1,6,1,6,2,7,2 };
 	int T_blockCoordinates[8] = { 5,1,6,1,6,2,7,1 };
+	int BOMB_blockCoordinates[8] = { 5,1,5,1,5,1,5,1 };
 
 	int* coordsArr[7] = { O_blockCoordinates,
 						  I_blockCoordinates,
