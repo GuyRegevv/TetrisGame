@@ -58,13 +58,16 @@ void drawBorder(int offset)
 
 }
 
-void gameOver()
+int gameOver()
 {
 	setTextColor(Color::WHITE);
 	gotoxy(40, 10);
-	cout << " ||| game over ! ||| ";
+	cout << " ||| game over ! ||| " << endl;
 	gotoxy(40, 20);
-	exit(1);
+	int input = 0;
+	cout << "(0) End Game" << endl << "(1) New Game" << endl;
+	cin >> input;
+	return input;
 }
 
 int printMenuAndSelect()
@@ -108,14 +111,16 @@ void handleFullLines(board& b1, board& b2) //wrapper function
 		b2.syncBoardToDisplay();
 }
 
-void handleGameOver(board& b1, board& b2) //wrapper function
+int handleGameOver(board& b1, board& b2) //wrapper function
 {
 	setTextColor(Color::WHITE);
 	if (b1.isGameOver())
-		gameOver();
+		return gameOver();
 
 	if (b2.isGameOver())
-		gameOver();
+		return gameOver();
+
+	return 2;
 }
 
 int handleGameStart() //menu selection and drawing borders
@@ -132,9 +137,9 @@ int handleGameStart() //menu selection and drawing borders
 
 void handleDrawing(shape& s1, shape& s2)
 {
-	s1.drawShape('#');
-	s2.drawShape('#');
-	Sleep(200);
+	s1.drawShape();
+	s2.drawShape();
+	Sleep(100);
 	s1.drawShape(' ');
 	s2.drawShape(' ');
 }

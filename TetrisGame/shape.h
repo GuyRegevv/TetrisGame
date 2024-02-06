@@ -17,11 +17,13 @@ class shape
 	int rotate;
 	int direction;
 	Color c;
+	char symbol;
 
 public:
 
 	shape(int pNum);
 
+	void drawShape();
 	void drawShape(char ch);
 	bool moveShape(board& b);
 	void coordinatesToShape(point body[4], int coords[8]);
@@ -31,5 +33,7 @@ public:
 	bool checkRightBorder();
 	bool CanIMove(int dir, board& b);
 	point* getBody();
+	void rotateShape();
+
 
 };

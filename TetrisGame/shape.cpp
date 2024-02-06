@@ -14,17 +14,23 @@ gameConfig conf;
 
 //constructor, every new shape gets a random color and shape.
 //the shape gets the keys controling it and ajdusting to current position (P1/P2)
-shape::shape(int pNum) : direction(3), rotate(1) 
+shape::shape(int pNum) : direction(3), symbol('#')
 {
 	setTextColor((Color)(1 + genRand(14)));
-	coordinatesToShape(body, conf.coordsArr[genRand(7)]);
+	if (genRand(20) == 19)
+	{
+		coordinatesToShape(body, conf.BOMB_blockCoordinates);
+		symbol = '@';
+	}
+	else 
+		coordinatesToShape(body, conf.coordsArr[genRand(7)]);
 	if (pNum == 1)
 	{
-		keys = "xad";
+		keys = "xads";
 	}
 	else
 	{
-		keys = "mjl";
+		keys = "mjlk";
 		for (int i = 0; i < 4; i++)
 			body[i].setXY(body[i].getX() + gameConfig::P2OFFSET, body[i].getY());
 	}
@@ -36,6 +42,14 @@ void shape::coordinatesToShape(point _body[4], int coords[8]) //converting int c
 	for (int i = 0; i < 4; i++)
 	{
 		_body[i].setXY(coords[i * 2], coords[(i * 2) + 1]);
+	}
+}
+
+void shape::drawShape()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		body[i].draw(symbol);
 	}
 }
 
@@ -82,12 +96,46 @@ bool shape::moveShape(board& b)
 
 int shape::getDirection(char key) //converting keys controls string to directions
 {
-	for (int i = 0; i < 3; ++i)
+	for (int i = 0; i < 4; ++i)
 	{
 		if (key == keys[i])
+		{
+			if (i == 3)
+			{
+				rotateShape();
+			}
 			return i;
+		}
 	}
 	return -1;
+}
+
+void shape::rotateShape()
+{
+	int size = 4;
+	// Find the center point of the shape
+	int centerX = 0, centerY = 0;
+	for (int i = 0; i < size; ++i) {
+		centerX += body[i].getX();
+		centerY += body[i].getY();
+	}
+	centerX /= size;
+	centerY /= size;
+
+	// Rotate the shape around its center
+	for (int i = 0; i < size; ++i) {
+		// Translate coordinates relative to center
+		int relX = body[i].getX() - centerX;
+		int relY = body[i].getY() - centerY;
+
+		// Rotate 90 degrees clockwise
+		int newX = centerX + relY;
+		int newY = centerY - relX;
+
+		// Update the shape with new coordinates
+		body[i].setX(newX);
+		body[i].setY(newY);
+	}
 }
 
 void shape::setDirection(int dir)
@@ -98,6 +146,8 @@ void shape::setDirection(int dir)
 		direction = dir;
 	if (dir == 0 || dir ==3) 
 		direction = dir; 	
+	//if(dir==4)
+	//rotate
 }
 
 bool shape::CanIMove(int dir, board& b) //checks if the place we want to move to, is free in the board matrix.

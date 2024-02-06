@@ -25,6 +25,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="shape.cpp" />
+    <ClCompile Include="Starter.cpp" />
     <ClCompile Include="utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +34,7 @@
     <ClInclude Include="gameConfig.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="shape.h" />
+    <ClInclude Include="Starter.h" />
     <ClInclude Include="utilities.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
