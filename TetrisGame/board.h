@@ -21,6 +21,7 @@ public:
 	void syncBoardToDisplay();
 	void handleFullLines(board& b1, board& b2);
 
+
 };
 
 bool checkIfLineFull(int* arr);

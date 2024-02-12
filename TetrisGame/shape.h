@@ -34,6 +34,7 @@ public:
 	bool CanIMove(int dir, board& b);
 	point* getBody();
 	void rotateShape();
+	char getSymbol() const { return symbol; }
 
 
 };
