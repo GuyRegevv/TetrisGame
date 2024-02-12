@@ -18,4 +18,5 @@ void handleFullLines(board& b1, board& b2);
 int handleGameOver(board& b1, board& b2);
 int handleGameStart();
 void handleDrawing(shape& s1, shape& s2);
+void handleInstructions();
 

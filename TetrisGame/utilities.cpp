@@ -63,10 +63,12 @@ int gameOver()
 	setTextColor(Color::WHITE);
 	gotoxy(40, 10);
 	cout << " ||| game over ! ||| " << endl;
-	gotoxy(40, 20);
+	gotoxy(40, 12);
+	cout << "(0) End Game " << "(1) New Game" << endl;
+	gotoxy(40, 13);
 	int input = 0;
-	cout << "(0) End Game" << endl << "(1) New Game" << endl;
 	cin >> input;
+	gotoxy(40, 20);
 	return input;
 }
 
@@ -75,7 +77,7 @@ int printMenuAndSelect()
 	int res;
 	cout << "(1) Start a new game" << endl;
 	cout << "(2) Continue a paused game" << endl;
-	cout << "(8) Pause game" << endl;
+	cout << "(8) Present instructions and keys" << endl;
 	cout << "(9) EXIT" << endl;
 	cin >> res;
 	return res;
@@ -144,3 +146,85 @@ void handleDrawing(shape& s1, shape& s2)
 	s2.drawShape(' ');
 }
 
+void handleInstructions()//display instructions until its being realse by '8'
+{
+	char check = 0;
+	setTextColor((Color)(15));
+	//prints rules in {} 
+	{
+		gotoxy(40, 10);
+		cout << "Rules:" << endl;
+		gotoxy(40, 11);
+		cout << "Players take turns controlling falling tetrominoes on their respective boards." << endl;
+		gotoxy(40, 12);
+		cout << "The goal is to complete horizontal lines by filling them with tetrominoes." << endl;
+		gotoxy(40, 13);
+		cout << "Completed lines disappear, and players score points for each line cleared." << endl;
+		gotoxy(40, 14);
+		cout << "The game ends if a tetromino reaches the top of the board." << endl;
+		gotoxy(40, 15);
+		cout << "Player 1 Controls:" << endl;
+		gotoxy(40, 16);
+		cout << "A: Move tetromino left." << endl;
+		gotoxy(40, 17);
+		cout << "D : Move tetromino right." << endl;
+		gotoxy(40, 18);
+		cout << "S : Rotate tetromino." << endl;
+		gotoxy(40, 19);
+		cout << "X : Drop tetromino instantly." << endl;
+		gotoxy(40, 20);
+		cout << "Player 2 Controls:" << endl;
+		gotoxy(40, 21);
+		cout << "J: Move tetromino left." << endl;
+		gotoxy(40, 22);
+		cout << "L : Move tetromino right." << endl;
+		gotoxy(40, 23);
+		cout << "K : Rotate tetromino." << endl;
+		gotoxy(40, 24);
+		cout << "M : Drop tetromino instantly." << endl;
+	}
+	fflush(stdin);
+	while (true)
+	{
+		if (_kbhit())
+			check = _getch();
+		if (check == '8')
+		{
+			gotoxy(40, 10);
+			cout << "                     " << endl;
+			gotoxy(40, 11);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 12);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 13);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 14);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 15);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 16);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 17);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 18);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 19);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 20);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 21);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 22);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 23);
+			cout << "                                                                               " << endl;
+			gotoxy(40, 24);
+			cout << "                                                                               " << endl;
+
+			break;
+		}
+	}
+
+	
+
+}

@@ -31,6 +31,11 @@ int Starter::lunch()
 	bool currentshape1 = true;
 	bool currentshape2 = true;
 
+	if (startingKey == 8)
+	{
+		handleInstructions();
+		startingKey = 1;
+	}
 	//game starts
 	if (startingKey == 1)
 	{
@@ -47,11 +52,23 @@ int Starter::lunch()
 					key = _getch();
 				//exit game when selecting 9
 				if (key == '9')
-					gameOver();
+				{
+					gotoxy(40, 10);
+					setTextColor((Color)(15));
+					cout << " ||| game over ! ||| " << endl;
+					gotoxy(40, 25);
+					exit(1);
+					//gameOver();
+				}
 				//pausing game when selecting 8, resuming when selecting 2	
 				else if (key == '2')
 				{
 					handlePause();
+					key = 0;
+				}
+				else if (key == '8')
+				{
+					handleInstructions();
 					key = 0;
 				}
 				else
@@ -95,6 +112,7 @@ int Starter::lunch()
 
 		return newGame;
 	}
+
 }
 
 
