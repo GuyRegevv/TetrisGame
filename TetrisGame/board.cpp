@@ -44,7 +44,7 @@ void board::print(int pNum) const
 }
 
 void board::update(point* p) //updates matrix once a shape reached down.
-{
+{	
 	for (int i = 0; i < 4; i++)
 	{
 		usedCoords[p[i].getY()][p[i].getX() - offset] = 1; //changed x/y
