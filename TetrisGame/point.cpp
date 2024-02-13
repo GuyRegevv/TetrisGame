@@ -60,3 +60,8 @@ int point::getY()
 {
     return y;
 }
+
+void point::printPoint()
+{
+    cout << "(" << x << "," << y << ") ";
+}

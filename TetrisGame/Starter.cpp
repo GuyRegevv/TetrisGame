@@ -19,6 +19,25 @@ using namespace std;
 
 int Starter::lunch()
 {
+	{/*
+		srand(time(0));
+		board b(1);
+		shape s(1);
+		for (int i = 0; i < 4; i++)
+			cout << s.getBody()[i].getX() << "," << s.getBody()[i].getY() << endl;
+		
+		s.stickShapeToBottomBorder(b);
+		
+		cout << "-----------------------------" << endl;
+		for (int i = 0; i < 4; i++)
+			cout << s.getBody()[i].getX() << ","<< s.getBody()[i].getY() << endl;
+		s.stickShapeToLeftBorder(b);
+		cout << "-----------------------------" << endl;
+		for (int i = 0; i < 4; i++)
+			cout << s.getBody()[i].getX() << "," << s.getBody()[i].getY() << endl;
+	exit(1);*/
+	}
+
 	srand(time(0));
 	char key = 0; //Setting Defult direction - Down
 	int dir;
@@ -71,6 +90,12 @@ int Starter::lunch()
 					handleInstructions();
 					key = 0;
 				}
+				else if (key == '5')
+				{
+					b1.bestMove(s1);
+					Sleep(7000000);
+					key = 0;
+				}
 				else
 				{
 					//setting direction according to selected key, and moving coordinates.
@@ -97,11 +122,13 @@ int Starter::lunch()
 
 			//end of round,
 			// updating the board matrix
-			b1.update(s1.getBody());
-			b2.update(s2.getBody());
+			b1.update(s1);
+			b2.update(s2);
 			//drawing the shapes in the place they landed
-			s1.drawShape();
-			s2.drawShape();
+			if (s1.getSymbol() != '@')
+				s1.drawShape();
+			if (s2.getSymbol() != '@')
+				s2.drawShape();
 			//check for full lines and delete.
 			handleFullLines(b1, b2);
 			//check if game is over
@@ -112,7 +139,8 @@ int Starter::lunch()
 
 		return newGame;
 	}
-
+	
+	return 0;
 }
 
 

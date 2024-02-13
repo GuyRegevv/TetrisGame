@@ -21,5 +21,6 @@ public:
     void setY(int _y) { y = _y; }
     int getX();
     int getY();
+    void printPoint();
 
 };

@@ -36,6 +36,20 @@ shape::shape(int pNum) : direction(3), symbol('#')
 	}
 }
 
+shape::shape(const shape& other)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		body[i] = other.body[i];
+	}
+	keys = other.keys;
+	rotate = other.rotate;
+	direction = other.direction;
+	c = other.c;
+	symbol = other.symbol;
+
+}
+
 
 void shape::coordinatesToShape(point _body[4], int coords[8]) //converting int coordinates array to points array.
 {
@@ -192,3 +206,41 @@ point* shape::getBody()
 {
 	return this->body;
 }
+void shape::stickShapeToLeftBorder(board b)
+{
+		setDirection(1);
+		while (moveShape(b))
+		{
+			setDirection(1);
+
+		}
+		b.update(*this);
+
+}
+void shape::stickShapeToBottomBorder(board b)
+{
+	setDirection(3);
+	while (moveShape(b))
+	{
+	}
+	b.update(*this);
+
+}
+
+void shape::moveShapeUpBy(int diff)
+{
+	int currY = 0;
+	for (int i = 0; i < 4; i++)
+	{
+		currY = body[i].getY();
+		body[i].setY(currY + diff);
+	}
+}
+
+void shape::updateBody(point* newBody)
+{
+	for (int i = 0; i < 4; i++)
+		body[i] = newBody[i];
+}
+
+

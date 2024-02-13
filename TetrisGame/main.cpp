@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-	Starter *s = new Starter;
+	Starter* s = new Starter;
 	int newGame;
 	newGame = s->lunch();
 	while (newGame == 1)
@@ -19,5 +19,7 @@ int main()
 
 	delete s;
 	exit(1);
+	
+
 	return 0;
 }

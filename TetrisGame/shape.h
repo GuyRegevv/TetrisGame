@@ -19,10 +19,12 @@ class shape
 	Color c;
 	char symbol;
 
+	friend bool isFitted(const board& b, const shape& s);
+
 public:
 
 	shape(int pNum);
-
+	shape(const shape& other);
 	void drawShape();
 	void drawShape(char ch);
 	bool moveShape(board& b);
@@ -35,6 +37,13 @@ public:
 	point* getBody();
 	void rotateShape();
 	char getSymbol() const { return symbol; }
+	void stickShapeToLeftBorder(board b);
+	void stickShapeToBottomBorder(board b);
+	void moveShapeUpBy(int diff);
+	void updateBody(point* newBody);
+	//void stickShapeToLeftBottomCorner(board b);
+
+
 
 
 };
