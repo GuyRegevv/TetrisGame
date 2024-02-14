@@ -4,6 +4,7 @@
 #include "board.h"
 #include "shape.h"
 #include "utilities.h"
+#include "optionalMove.h"
 
 board::board(int pNum) //bottom line filled with 1's to represent the floor.
 {
@@ -111,7 +112,7 @@ void board::syncBoardToDisplay() //printing the current board state
 
 point* board::bestMove(shape& s)
 {
-	vector <point*> possibleMoves = findPossibleMoves(s);
+	vector<point*> possibleMoves = findPossibleMoves(s);
 	vector<point*> movesThatdeleted = movesThatDeleteLines(possibleMoves);
 
 	if (movesThatdeleted.empty())
@@ -137,7 +138,7 @@ vector <point*> board::findPossibleMoves(shape& s)
 			shape upperLineShape(shapeCopy);
 
 			shapeCopy.setDirection(0); //drop
-			shapeCopy.moveShape(*this);
+			shapeCopy.moveShape(*this);        
 
 			heightDiff = upperLineShape.getBody()[0].getY() - shapeCopy.getBody()[0].getY();
 
@@ -195,6 +196,12 @@ void board::deleteShapeFromBoard(shape& s)
 	{
 		usedCoords[s.getBody()[i].getY()][s.getBody()[i].getX() - offset] = 0;
 	}
+}
+
+void board::typeInput(int pNum)
+{
+	cout << "Enter Player " << pNum << " type " << endl << "c For Computer / h For Human" << endl;
+	cin >> pType;
 }
 
 bool checkIfLineFull(int* arr)

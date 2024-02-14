@@ -23,6 +23,7 @@
     <ClCompile Include="color.cpp" />
     <ClCompile Include="gameConfig.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="optionalMove.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="Starter.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="board.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="gameConfig.h" />
+    <ClInclude Include="optionalMove.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="Starter.h" />

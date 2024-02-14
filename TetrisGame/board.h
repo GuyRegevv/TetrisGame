@@ -11,6 +11,7 @@ class board
 {
 	int usedCoords[20][12] = { 0 };
 	int offset;
+	char pType; 
 	friend void bombExplotion(point* p, board& b);
 
 public:
@@ -25,11 +26,15 @@ public:
 	void syncBoardToDisplay();
 	void handleFullLines(board& b1, board& b2);
 	int getOffset() const { return offset; }
-	point*  bestMove(shape& s) ;
+	point* bestMove(shape& s) ;
 	bool isFitted(const board& b, shape& s) const;
 	void deleteShapeFromBoard(shape& s);
 	vector <point*> movesThatDeleteLines(vector <point*> points);
 	vector <point*> findPossibleMoves(shape& s);
+	void setPlayerType(char c) { pType = c; }
+	char getPlayerType() const { return pType; }
+	void typeInput(int pNum);
+
 
 
 
