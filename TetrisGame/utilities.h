@@ -2,6 +2,8 @@
 
 #include "point.h"
 #include <vector>
+#include <stack>
+
 //utilitis contains all kind of functions without a direct relation to certain objects, and wrapper functions.
 
 class shape;
@@ -20,4 +22,8 @@ int handleGameStart();
 void handleDrawing(shape& s1, shape& s2);
 void handleInstructions();
 point* lowestMove(vector <point*> moves);
+stack<int> computerMoves(shape& origin, point* dest);
+void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1);
+
+
 

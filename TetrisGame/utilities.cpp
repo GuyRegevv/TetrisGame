@@ -7,6 +7,7 @@
 #include <ctime>   // for seeding srand()
 #include <time.h>
 #include <vector>
+#include <stack>
 
 #include "utilities.h"
 #include "gameConfig.h"
@@ -132,9 +133,6 @@ int handleGameStart() //menu selection and drawing borders
 	startingKey = printMenuAndSelect();
 	clrscr();
 
-	drawBorder(gameConfig::P1OFFSET);
-	drawBorder(gameConfig::P2OFFSET);
-
 	return startingKey;
 }
 
@@ -247,4 +245,33 @@ point* lowestMove(vector <point*> moves)
 	}
 
 	return res;
+}
+
+stack<int> computerMoves(shape& origin, point* dest)
+{
+	int widthDiff = 0;
+	int originX = origin.getBody()[0].getX();
+	int destX = dest[0].getX();
+	stack<int> moves;
+
+	widthDiff = originX - destX;
+
+	if (widthDiff < 0)
+		for (int i = 0; i < widthDiff * -1; i++)
+			moves.push(2);
+	if (widthDiff > 0)
+		for (int i = 0; i < widthDiff; i++)
+			moves.push(1);
+	
+	return moves;
+}
+
+void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1)
+{
+	if (b1.getPlayerType() == 'c')
+	{
+		point* compBestMove;
+		compBestMove = b1.bestMove(shape1);
+		stack1 = computerMoves(shape1, compBestMove);
+	}
 }

@@ -6,6 +6,7 @@
 #include <process.h>
 #include <ostream>
 #include <conio.h> //for kbh and getch
+#include <stack>
 
 #include "gameConfig.h"
 #include "utilities.h"
@@ -58,12 +59,26 @@ int Starter::lunch()
 	//game starts
 	if (startingKey == 1)
 	{
+		b1.typeInput(1);
+		b2.typeInput(2);
+		clrscr();
+		drawBorder(gameConfig::P1OFFSET);
+		drawBorder(gameConfig::P2OFFSET);
+
 		do {
 			//two new shapes created. for each round
 			shape s1(1);
 			shape s2(2);
 			currentshape1 = true;
 			currentshape2 = true;
+			
+			//returns the moves stack
+			stack<int> compMoves1;
+			stack<int> compMoves2;
+			updateCompMoves(b1, compMoves1, s1);
+			updateCompMoves(b2, compMoves2, s2);
+
+			//function for moves string -------------------------
 			while (currentshape1 || currentshape2)
 			{
 				fflush(stdin);
@@ -99,15 +114,42 @@ int Starter::lunch()
 				else
 				{
 					//setting direction according to selected key, and moving coordinates.
-					if ((dir = s1.getDirection(key)) != -1)
+					if (b1.getPlayerType() == 'h')
 					{
-						s1.setDirection(dir);
-						currentshape1 = s1.moveShape(b1);
+						if ((dir = s1.getDirection(key)) != -1)
+						{
+							s1.setDirection(dir);
+							currentshape1 = s1.moveShape(b1);
+						}
 					}
-					if ((dir = s2.getDirection(key)) != -1)
+					else
 					{
-						s2.setDirection(dir);
-						currentshape2 = s2.moveShape(b2);
+						if (!compMoves1.empty())
+						{
+							dir = compMoves1.top();
+							compMoves1.pop();
+							s1.setDirection(dir);
+							currentshape1 = s1.moveShape(b1);
+						}
+					}
+
+					if (b2.getPlayerType() == 'h')
+					{
+						if ((dir = s2.getDirection(key)) != -1)
+						{
+							s2.setDirection(dir);
+							currentshape1 = s2.moveShape(b2);
+						}
+					}
+					else
+					{
+						if (!compMoves2.empty())
+						{
+							dir = compMoves2.top();
+							compMoves2.pop();
+							s2.setDirection(dir);
+							currentshape1 = s2.moveShape(b2);
+						}
 					}
 
 					//drawing shapes
