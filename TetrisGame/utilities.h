@@ -1,7 +1,7 @@
 #pragma once
 
 #include "point.h"
-
+#include <vector>
 //utilitis contains all kind of functions without a direct relation to certain objects, and wrapper functions.
 
 class shape;
@@ -19,4 +19,5 @@ int handleGameOver(board& b1, board& b2);
 int handleGameStart();
 void handleDrawing(shape& s1, shape& s2);
 void handleInstructions();
+point* lowestMove(vector <point*> moves);
 

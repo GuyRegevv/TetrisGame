@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <vector>
 #include "point.h"
 #include "board.h"
 #include "shape.h"
@@ -43,12 +43,22 @@ void board::print(int pNum) const
 	}
 }
 
-void board::update(point* p) //updates matrix once a shape reached down.
+void board::update(shape& s) //updates matrix once a shape reached down.
 {	
-	for (int i = 0; i < 4; i++)
+	point* p = s.getBody();
+
+	if (s.getSymbol() == '@') //is a bomb
 	{
-		usedCoords[p[i].getY()][p[i].getX() - offset] = 1; //changed x/y
+		bombExplotion(p, *this);
 	}
+	else
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			usedCoords[p[i].getY()][p[i].getX() - offset] = 1; //changed x/y
+		}
+	}
+
 }
 
 bool board::isGameOver() const //game over if shapes reached top line
@@ -99,6 +109,94 @@ void board::syncBoardToDisplay() //printing the current board state
 	}
 }
 
+point* board::bestMove(shape& s)
+{
+	vector <point*> possibleMoves = findPossibleMoves(s);
+	vector<point*> movesThatdeleted = movesThatDeleteLines(possibleMoves);
+
+	if (movesThatdeleted.empty())
+		return lowestMove(possibleMoves);
+	else
+		return lowestMove(possibleMoves);
+}
+
+vector <point*> board::findPossibleMoves(shape& s)
+{
+	vector <point*> bodyPosPossibleArr;
+	point* p;
+	shape shapeCopy = s;
+	shapeCopy.stickShapeToLeftBorder(*this);
+	bool needToinsert;
+	bool canMoveRight = true;
+	int heightDiff;
+	for (int i = 0; i < 4; i++)
+	{
+		canMoveRight = true;
+		while (canMoveRight)
+		{
+			shape upperLineShape(shapeCopy);
+
+			shapeCopy.setDirection(0); //drop
+			shapeCopy.moveShape(*this);
+
+			heightDiff = upperLineShape.getBody()[0].getY() - shapeCopy.getBody()[0].getY();
+
+			needToinsert = isFitted(*this, shapeCopy);
+			if (needToinsert)
+			{
+				point* insert = new point[4];
+				insert[0] = shapeCopy.getBody()[0];
+				insert[1] = shapeCopy.getBody()[1];
+				insert[2] = shapeCopy.getBody()[2];
+				insert[3] = shapeCopy.getBody()[3];
+				bodyPosPossibleArr.push_back(insert);
+			}
+
+			shapeCopy.moveShapeUpBy(heightDiff);
+			shapeCopy.setDirection(2); //right
+			canMoveRight = shapeCopy.moveShape(*this);
+		}
+
+		shapeCopy.stickShapeToLeftBorder(*this);
+		shapeCopy.rotateShape();
+	}
+
+	return bodyPosPossibleArr;
+}
+
+vector <point*> board::movesThatDeleteLines(vector <point*> points) //not checked
+{
+	bool isDeleted = false;
+	shape dummyShape(1);
+	vector <point*> resArr;
+
+	for (const auto& p : points)
+	{
+		dummyShape.updateBody(p);
+		update(dummyShape);
+		
+		for (int i = 0; i < 19; i++)
+			if (checkIfLineFull(usedCoords[i]))
+				isDeleted = true;
+
+		deleteShapeFromBoard(dummyShape);
+		if (isDeleted)
+			resArr.push_back(dummyShape.getBody());
+
+		isDeleted = false;
+	}
+
+	return resArr;
+}
+
+void board::deleteShapeFromBoard(shape& s)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		usedCoords[s.getBody()[i].getY()][s.getBody()[i].getX() - offset] = 0;
+	}
+}
+
 bool checkIfLineFull(int* arr)
 {
 	for (int i = 0; i < 12; i++)
@@ -127,6 +225,39 @@ void switchLines(int* under, int* upper)
 		upper[i] = under[i];
 		under[i] = temp;
 	}
+}
+void bombExplotion(point* p, board& b)
+{
+	int midX = p[0].getX() - b.offset;
+	int midY = p[0].getY();
+	int currX = midX, currY = midY;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			currY = midY - 1 + i;
+			currX = midX - 1 + j;
+			if (currY < 19 && (currX > 0 && currX < 12))
+			{
+				b.usedCoords[currY][currX] = 0;
+				gotoxy(currX + b.offset, currY);
+				cout << " ";
+			}
+		}
+	}
+}
+bool board::isFitted(const board& b, shape& s) const
+{
+	bool pos1, pos2, pos3, pos4;
+	pos1 = b.existInMat(s.getBody()[0]);
+	pos2 = b.existInMat(s.getBody()[1]);
+	pos3 = b.existInMat(s.getBody()[2]);
+	pos4 = b.existInMat(s.getBody()[3]);
+
+	if (pos1 == false && pos2 == false && pos3 == false && pos4 == false)
+		return true;
+	else
+		return false;
 }
 
 

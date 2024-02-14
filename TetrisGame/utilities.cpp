@@ -6,6 +6,7 @@
 #include <cstdlib> // for rand() function
 #include <ctime>   // for seeding srand()
 #include <time.h>
+#include <vector>
 
 #include "utilities.h"
 #include "gameConfig.h"
@@ -141,7 +142,7 @@ void handleDrawing(shape& s1, shape& s2)
 {
 	s1.drawShape();
 	s2.drawShape();
-	Sleep(100);
+	Sleep(200);
 	s1.drawShape(' ');
 	s2.drawShape(' ');
 }
@@ -227,4 +228,23 @@ void handleInstructions()//display instructions until its being realse by '8'
 
 	
 
+}
+
+point* lowestMove(vector <point*> moves)
+{
+	int lowestY = 0;
+	point* res = nullptr;
+	for (const auto& m : moves)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (m[i].getY() > lowestY)
+			{
+				lowestY = m[i].getY();
+				res = m;
+			}
+		}
+	}
+
+	return res;
 }
