@@ -143,7 +143,7 @@ void handleDrawing(shape& s1, shape& s2)
 {
 	s1.drawShape();
 	s2.drawShape();
-	Sleep(400);
+	Sleep(100);
 	s1.drawShape(' ');
 	s2.drawShape(' ');
 }
@@ -237,24 +237,54 @@ optionalMove lowestMove(vector <optionalMove> moves)
 	optionalMove res;
 	for (const auto& m : moves)
 	{
-		for (int i = 0; i < 4; i++)
+		if (lowestYinMove(m) > lowestY)
 		{
-			if (m.getDestination()[i].getY() > lowestY)
-			{
-				lowestY = m.getDestination()[i].getY();
-				res = m;
-			}
+			lowestY = lowestYinMove(m);
+			res = m;
 		}
 	}
 
 	return res;
 }
 
+optionalMove highestMove(vector <optionalMove> moves)
+{
+	int highestY = 18;
+	optionalMove res;
+	for (const auto& m : moves)
+	{
+		if (highestYinMove(m) < highestY)
+		{
+			highestY = highestYinMove(m);
+			res = m;
+		}
+	}
+
+	return res;
+}
+
+int lowestYinMove(optionalMove opt)
+{
+	int m1 = max(opt.getDestination()[0].getY(), opt.getDestination()[1].getY());
+	int m2 = max(opt.getDestination()[2].getY(), opt.getDestination()[3].getY());
+	return max(m1, m2);
+}
+
+int highestYinMove(optionalMove opt)
+{
+	int m1 = min(opt.getDestination()[0].getY(), opt.getDestination()[1].getY());
+	int m2 = min(opt.getDestination()[2].getY(), opt.getDestination()[3].getY());
+	return min(m1, m2);
+}
+
 stack<int> computerMoves(shape& origin, optionalMove move)
 {	
+	shape shapeCopy(origin);
+	for (int i = 0; i < move.getNumOfRotations(); i++)
+		shapeCopy.rotateShape();
 	point* dest = move.getDestination();
 	int widthDiff = 0;
-	int originX = origin.getBody()[0].getX();
+	int originX = shapeCopy.getBody()[0].getX();
 	int destX = dest[0].getX();
 	stack<int> moves;
 
@@ -273,18 +303,42 @@ stack<int> computerMoves(shape& origin, optionalMove move)
 	return moves;
 }
 
-void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1)
+void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1, char computerLevel)
 {
 	board dummyBoard(1);
 	dummyBoard = b1;
-	if (shape1.getSymbol() == '@')
-		return;
+	
 	if (b1.getPlayerType() == 'c')
 	{
-		optionalMove compBestMove;
-		//compBestMove = b1.bestMove(shape1);
-		compBestMove = dummyBoard.bestMove(shape1);
-		stack1 = computerMoves(shape1, compBestMove);
+		if (shape1.getSymbol() == '@')
+		{
+			vector<optionalMove> possibleMoves = b1.findPossibleMoves(shape1);
+			optionalMove highest = highestMove(possibleMoves);
+			stack1 = computerMoves(shape1, highest);
+		}
+		else
+		{
+			if (computerLevel == 'b' && genRand(40) == 39)//Computer level is MID
+			{
+				//b1 random move every 40 times
+				vector<optionalMove> possibleMoves = b1.findPossibleMoves(shape1);
+				optionalMove randPossibleMove = possibleMoves[possibleMoves.size() / 2];
+				stack1 = computerMoves(shape1, randPossibleMove);
+			}
+			else if (computerLevel == 'c' && genRand(10) == 9)//Computer level is BAD	
+			{
+				//b1 random move every 10 times
+				vector<optionalMove> possibleMoves1 = b1.findPossibleMoves(shape1);
+				optionalMove randPossibleMove1 = possibleMoves1[possibleMoves1.size() / 2];
+				stack1 = computerMoves(shape1, randPossibleMove1);
+			}
+			else
+			{
+				optionalMove compBestMove;
+				compBestMove = dummyBoard.bestMove(shape1);
+				stack1 = computerMoves(shape1, compBestMove);
+			}
+		}
 	}
 }
 

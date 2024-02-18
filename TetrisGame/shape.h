@@ -24,24 +24,23 @@ class shape
 public:
 
 	shape(int pNum);
-	shape(const shape& other);
+	point* getBody();
 	void drawShape();
+	void rotateShape();
+	bool checkLeftBorder();
 	void drawShape(char ch);
+	bool checkRightBorder();
 	bool moveShape(board& b);
-	void coordinatesToShape(point body[4], int coords[8]);
+	shape(const shape& other);
 	int getDirection(char key);
 	void setDirection(int dir);
-	bool checkLeftBorder();
-	bool checkRightBorder();
-	bool CanIMove(int dir, board& b);
-	point* getBody();
-	void rotateShape();
-	char getSymbol() const { return symbol; }
-	void stickShapeToLeftBorder(board b);
-	void stickShapeToBottomBorder(board b);
 	void moveShapeUpBy(int diff);
 	void updateBody(point* newBody);
-	//void stickShapeToLeftBottomCorner(board b);
+	bool CanIMove(int dir, board& b);
+	void stickShapeToLeftBorder(board b);
+	void stickShapeToBottomBorder(board b);
+	char getSymbol() const { return symbol; }
+	void coordinatesToShape(point body[4], int coords[8]);
 
 	shape& operator=(const shape& other)
 	{
@@ -55,8 +54,4 @@ public:
 		c = other.c;
 		symbol = other.symbol;
 	}
-
-
-
-
 };
