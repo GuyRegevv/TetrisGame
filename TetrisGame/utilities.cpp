@@ -14,6 +14,7 @@
 #include "point.h"
 #include "board.h"
 #include "shape.h"
+#include "optionalMove.h"
 
 using namespace std;
 
@@ -142,7 +143,7 @@ void handleDrawing(shape& s1, shape& s2)
 {
 	s1.drawShape();
 	s2.drawShape();
-	Sleep(200);
+	Sleep(400);
 	s1.drawShape(' ');
 	s2.drawShape(' ');
 }
@@ -230,17 +231,17 @@ void handleInstructions()//display instructions until its being realse by '8'
 
 }
 
-point* lowestMove(vector <point*> moves)
+optionalMove lowestMove(vector <optionalMove> moves)
 {
 	int lowestY = 0;
-	point* res = nullptr;
+	optionalMove res;
 	for (const auto& m : moves)
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			if (m[i].getY() > lowestY)
+			if (m.getDestination()[i].getY() > lowestY)
 			{
-				lowestY = m[i].getY();
+				lowestY = m.getDestination()[i].getY();
 				res = m;
 			}
 		}
@@ -249,8 +250,9 @@ point* lowestMove(vector <point*> moves)
 	return res;
 }
 
-stack<int> computerMoves(shape& origin, point* dest)
-{
+stack<int> computerMoves(shape& origin, optionalMove move)
+{	
+	point* dest = move.getDestination();
 	int widthDiff = 0;
 	int originX = origin.getBody()[0].getX();
 	int destX = dest[0].getX();
@@ -265,15 +267,23 @@ stack<int> computerMoves(shape& origin, point* dest)
 		for (int i = 0; i < widthDiff; i++)
 			moves.push(1);
 	
+	for (int i = 0; i < move.getNumOfRotations(); i++)
+		moves.push(3);
+
 	return moves;
 }
 
 void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1)
 {
+	board dummyBoard(1);
+	dummyBoard = b1;
+	if (shape1.getSymbol() == '@')
+		return;
 	if (b1.getPlayerType() == 'c')
 	{
-		point* compBestMove;
-		compBestMove = b1.bestMove(shape1);
+		optionalMove compBestMove;
+		//compBestMove = b1.bestMove(shape1);
+		compBestMove = dummyBoard.bestMove(shape1);
 		stack1 = computerMoves(shape1, compBestMove);
 	}
 }
