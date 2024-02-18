@@ -11,8 +11,8 @@ using namespace std;
 
 point::point()
 {
-    x = 1;
-    y = 1;
+    x = 0;
+    y = 0;
 }
 
 point::point(int _x, int _y) : x(_x), y(_y)

@@ -20,25 +20,6 @@ using namespace std;
 
 int Starter::lunch()
 {
-	{/*
-		srand(time(0));
-		board b(1);
-		shape s(1);
-		for (int i = 0; i < 4; i++)
-			cout << s.getBody()[i].getX() << "," << s.getBody()[i].getY() << endl;
-		
-		s.stickShapeToBottomBorder(b);
-		
-		cout << "-----------------------------" << endl;
-		for (int i = 0; i < 4; i++)
-			cout << s.getBody()[i].getX() << ","<< s.getBody()[i].getY() << endl;
-		s.stickShapeToLeftBorder(b);
-		cout << "-----------------------------" << endl;
-		for (int i = 0; i < 4; i++)
-			cout << s.getBody()[i].getX() << "," << s.getBody()[i].getY() << endl;
-	exit(1);*/
-	}
-
 	srand(time(0));
 	char key = 0; //Setting Defult direction - Down
 	int dir;
@@ -126,10 +107,18 @@ int Starter::lunch()
 					{
 						if (!compMoves1.empty())
 						{
-							dir = compMoves1.top();
-							compMoves1.pop();
-							s1.setDirection(dir);
-							currentshape1 = s1.moveShape(b1);
+							if (compMoves1.top() == 3)
+							{
+								compMoves1.pop();
+								s1.rotateShape();
+							}
+							else
+							{
+								dir = compMoves1.top();
+								compMoves1.pop();
+								s1.setDirection(dir);
+								//currentshape1 = s1.moveShape(b1);
+							}
 						}
 					}
 
@@ -145,10 +134,18 @@ int Starter::lunch()
 					{
 						if (!compMoves2.empty())
 						{
-							dir = compMoves2.top();
-							compMoves2.pop();
-							s2.setDirection(dir);
-							currentshape1 = s2.moveShape(b2);
+							if (compMoves2.top() == 3)
+							{
+								compMoves2.pop();
+								s2.rotateShape();
+							}
+							else
+							{
+								dir = compMoves2.top();
+								compMoves2.pop();
+								s2.setDirection(dir);
+								//currentshape1 = s2.moveShape(b2);
+							}
 						}
 					}
 
@@ -175,6 +172,11 @@ int Starter::lunch()
 			handleFullLines(b1, b2);
 			//check if game is over
 			newGame = handleGameOver(b1, b2);
+
+			b1.print();
+			b2.print();
+			//b1.syncBoardToDisplay();
+			//b2.syncBoardToDisplay();
 
 
 		} while (key != '9' && newGame == CURRENT_GAME);

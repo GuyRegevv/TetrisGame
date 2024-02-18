@@ -43,6 +43,19 @@ public:
 	void updateBody(point* newBody);
 	//void stickShapeToLeftBottomCorner(board b);
 
+	shape& operator=(const shape& other)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			body[i] = other.body[i];
+		}
+		keys = other.keys;
+		rotate = other.rotate;
+		direction = other.direction;
+		c = other.c;
+		symbol = other.symbol;
+	}
+
 
 
 
