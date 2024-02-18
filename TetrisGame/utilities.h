@@ -1,6 +1,7 @@
 #pragma once
 
 #include "point.h"
+#include "optionalMove.h"
 #include <vector>
 #include <stack>
 
@@ -21,7 +22,7 @@ int handleGameOver(board& b1, board& b2);
 int handleGameStart();
 void handleDrawing(shape& s1, shape& s2);
 void handleInstructions();
-point* lowestMove(vector <point*> moves);
+optionalMove lowestMove(vector<optionalMove> moves);
 stack<int> computerMoves(shape& origin, point* dest);
 void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1);
 

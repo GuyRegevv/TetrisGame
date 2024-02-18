@@ -20,19 +20,15 @@ board::board(int pNum) //bottom line filled with 1's to represent the floor.
 
 bool board::existInMat(point val) const //checking if that space is free
 {
-	if (usedCoords[val.getY() ][val.getX() - offset] != 0) // changed x/y
+	if (usedCoords[val.getY() ][val.getX() - offset - 1] != 0) // changed x/y
 		return true;
 	else
 		return false;
 }
 
-void board::print(int pNum) const
-{
-	int offset = 0;
-	if (pNum == 2)
-		offset = 18;
-	
-	
+void board::print() const
+{	
+	//gotoxy(50, 10);
 	for (int i = 0; i < 19; i++)
 	{
 		cout << endl;
@@ -56,7 +52,7 @@ void board::update(shape& s) //updates matrix once a shape reached down.
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			usedCoords[p[i].getY()][p[i].getX() - offset] = 1; //changed x/y
+			usedCoords[p[i].getY()][p[i].getX() - offset - 1] = 1; //changed x/y
 		}
 	}
 
@@ -110,23 +106,26 @@ void board::syncBoardToDisplay() //printing the current board state
 	}
 }
 
-point* board::bestMove(shape& s)
+optionalMove board::bestMove(shape& s)
 {
-	vector<point*> possibleMoves = findPossibleMoves(s);
-	vector<point*> movesThatdeleted = movesThatDeleteLines(possibleMoves);
+	vector<optionalMove> possibleMoves = findPossibleMoves(s);
+	vector<optionalMove> movesThatdeleted = movesThatDeleteLines(possibleMoves);
 
 	if (movesThatdeleted.empty())
 		return lowestMove(possibleMoves);
 	else
-		return lowestMove(possibleMoves);
+		return lowestMove(movesThatdeleted);
 }
 
-vector <point*> board::findPossibleMoves(shape& s)
+vector<optionalMove> board::findPossibleMoves(shape& s)
 {
-	vector <point*> bodyPosPossibleArr;
+	vector <optionalMove> posMovesArr;
+	board dummyBoard(1);
+	dummyBoard = *this;
+	//vector <point*> bodyPosPossibleArr;
 	point* p;
 	shape shapeCopy = s;
-	shapeCopy.stickShapeToLeftBorder(*this);
+	shapeCopy.stickShapeToLeftBorder(dummyBoard);
 	bool needToinsert;
 	bool canMoveRight = true;
 	int heightDiff;
@@ -138,51 +137,60 @@ vector <point*> board::findPossibleMoves(shape& s)
 			shape upperLineShape(shapeCopy);
 
 			shapeCopy.setDirection(0); //drop
-			shapeCopy.moveShape(*this);        
+			shapeCopy.moveShape(dummyBoard);
 
 			heightDiff = upperLineShape.getBody()[0].getY() - shapeCopy.getBody()[0].getY();
 
-			needToinsert = isFitted(*this, shapeCopy);
+			needToinsert = isFitted(dummyBoard, shapeCopy);
 			if (needToinsert)
 			{
 				point* insert = new point[4];
+				optionalMove currMove;
 				insert[0] = shapeCopy.getBody()[0];
 				insert[1] = shapeCopy.getBody()[1];
 				insert[2] = shapeCopy.getBody()[2];
 				insert[3] = shapeCopy.getBody()[3];
-				bodyPosPossibleArr.push_back(insert);
+				currMove.setDestination(insert);
+				currMove.setNumOfRotations(i);
+				posMovesArr.push_back(currMove);
+				//bodyPosPossibleArr.push_back(insert);
 			}
 
 			shapeCopy.moveShapeUpBy(heightDiff);
 			shapeCopy.setDirection(2); //right
-			canMoveRight = shapeCopy.moveShape(*this);
+			canMoveRight = shapeCopy.moveShape(dummyBoard);
 		}
 
-		shapeCopy.stickShapeToLeftBorder(*this);
+		shapeCopy.stickShapeToLeftBorder(dummyBoard);
 		shapeCopy.rotateShape();
 	}
 
-	return bodyPosPossibleArr;
+	return posMovesArr;
 }
 
-vector <point*> board::movesThatDeleteLines(vector <point*> points) //not checked
+vector <optionalMove> board::movesThatDeleteLines(vector<optionalMove> posMovesArr) //not checked
 {
 	bool isDeleted = false;
 	shape dummyShape(1);
-	vector <point*> resArr;
+	board dummyBoard(1);
+	dummyBoard = *this;
+	vector <optionalMove> resArr;
 
-	for (const auto& p : points)
+	for (const auto& p : posMovesArr)
 	{
-		dummyShape.updateBody(p);
-		update(dummyShape);
+		dummyShape.updateBody(p.getDestination());
+		dummyBoard.update(dummyShape);
 		
 		for (int i = 0; i < 19; i++)
-			if (checkIfLineFull(usedCoords[i]))
+			if (checkIfLineFull(dummyBoard.usedCoords[i]))
 				isDeleted = true;
 
-		deleteShapeFromBoard(dummyShape);
+		dummyBoard.deleteShapeFromBoard(dummyShape);
 		if (isDeleted)
-			resArr.push_back(dummyShape.getBody());
+		{
+			resArr.push_back(p);
+			//resArr.push_back(dummyShape.getBody());
+		}
 
 		isDeleted = false;
 	}
@@ -194,7 +202,7 @@ void board::deleteShapeFromBoard(shape& s)
 {
 	for (int i = 0; i < 4; i++)
 	{
-		usedCoords[s.getBody()[i].getY()][s.getBody()[i].getX() - offset] = 0;
+		usedCoords[s.getBody()[i].getY()][s.getBody()[i].getX() - offset - 1] = 0;
 	}
 }
 
@@ -246,7 +254,7 @@ void bombExplotion(point* p, board& b)
 			currX = midX - 1 + j;
 			if (currY < 19 && (currX > 0 && currX < 12))
 			{
-				b.usedCoords[currY][currX] = 0;
+				b.usedCoords[currY][currX - 1] = 0;
 				gotoxy(currX + b.offset, currY);
 				cout << " ";
 			}
