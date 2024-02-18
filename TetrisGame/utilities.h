@@ -26,5 +26,7 @@ optionalMove lowestMove(vector<optionalMove> moves);
 stack<int> computerMoves(shape& origin, point* dest);
 void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1);
 
+char setComputerLevel();
+
 
 

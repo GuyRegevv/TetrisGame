@@ -32,16 +32,33 @@ int Starter::lunch()
 	bool currentshape1 = true;
 	bool currentshape2 = true;
 
+	char computerLevel;
+
+	if (startingKey == 1)
+	{
+		b1.setPlayerType('h');
+		b2.setPlayerType('h');
+		
+	}
+	if (startingKey == 2)
+	{
+		b1.setPlayerType('h');
+		b2.setPlayerType('c');
+		computerLevel = setComputerLevel();
+
+	}
+	if (startingKey == 3)
+	{
+		b1.setPlayerType('c');
+		b2.setPlayerType('c');
+		computerLevel = setComputerLevel();
+	}
 	if (startingKey == 8)
 	{
 		handleInstructions();
-		startingKey = 1;
 	}
 	//game starts
-	if (startingKey == 1)
-	{
-		b1.typeInput(1);
-		b2.typeInput(2);
+
 		clrscr();
 		drawBorder(gameConfig::P1OFFSET);
 		drawBorder(gameConfig::P2OFFSET);
@@ -56,9 +73,30 @@ int Starter::lunch()
 			//returns the moves stack
 			stack<int> compMoves1;
 			stack<int> compMoves2;
-			updateCompMoves(b1, compMoves1, s1);
-			updateCompMoves(b2, compMoves2, s2);
-
+		
+			if (computerLevel == 'b'  && genRand(40) == 39)//Computer level is MID
+			{
+				//b1 random move every 40 times
+				vector<point*> possibleMoves = b1.findPossibleMoves(s1);
+				point * randPossibleMove = possibleMoves[possibleMoves.size() / 2];
+				compMoves1 = computerMoves(s1, randPossibleMove);
+			}
+			else if (computerLevel == 'c' && genRand(10) == 9)//Computer level is BAD	
+			{
+				//b1 random move every 10 times
+				vector<point*> possibleMoves1 = b1.findPossibleMoves(s1);
+				point* randPossibleMove1 = possibleMoves1[possibleMoves1.size() / 2];
+				compMoves1 = computerMoves(s1, randPossibleMove1);
+				//b2
+				vector<point*> possibleMoves2 = b2.findPossibleMoves(s2);
+				point* randPossibleMove2 = possibleMoves2[possibleMoves2.size() / 2];
+				compMoves2 = computerMoves(s2, randPossibleMove2);
+			}
+			else//Computer level is GOOD
+			{
+					updateCompMoves(b1, compMoves1, s1);
+					updateCompMoves(b2, compMoves2, s2);
+			}
 			//function for moves string -------------------------
 			while (currentshape1 || currentshape2)
 			{
@@ -73,10 +111,9 @@ int Starter::lunch()
 					cout << " ||| game over ! ||| " << endl;
 					gotoxy(40, 25);
 					exit(1);
-					//gameOver();
 				}
 				//pausing game when selecting 8, resuming when selecting 2	
-				else if (key == '2')
+				else if (key == '4')
 				{
 					handlePause();
 					key = 0;
@@ -84,12 +121,6 @@ int Starter::lunch()
 				else if (key == '8')
 				{
 					handleInstructions();
-					key = 0;
-				}
-				else if (key == '5')
-				{
-					b1.bestMove(s1);
-					Sleep(7000000);
 					key = 0;
 				}
 				else
@@ -158,7 +189,6 @@ int Starter::lunch()
 					fflush(stdin);
 				}
 			}
-
 			//end of round,
 			// updating the board matrix
 			b1.update(s1);
@@ -169,7 +199,9 @@ int Starter::lunch()
 			if (s2.getSymbol() != '@')
 				s2.drawShape();
 			//check for full lines and delete.
-			handleFullLines(b1, b2);
+			
+			
+			(b1, b2);
 			//check if game is over
 			newGame = handleGameOver(b1, b2);
 
@@ -182,7 +214,7 @@ int Starter::lunch()
 		} while (key != '9' && newGame == CURRENT_GAME);
 
 		return newGame;
-	}
+	
 	
 	return 0;
 }

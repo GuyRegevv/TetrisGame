@@ -36,11 +36,15 @@ public:
 	char getPlayerType() const { return pType; }
 	void typeInput(int pNum);
 
+
+	void setType(int _pType) { pType = _pType; }
+
 	board& operator=(const board& other)
 	{
 		for (int i = 0; i < 20; i++)
 			for (int j = 0; j < 12; j++)
 				usedCoords[i][j] = other.usedCoords[i][j];
+
 
 		offset = other.getOffset();
 
