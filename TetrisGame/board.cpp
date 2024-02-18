@@ -5,6 +5,11 @@
 #include "shape.h"
 #include "utilities.h"
 #include "optionalMove.h"
+#include <iostream>
+#include <windows.h>
+#include <process.h>
+#include <ostream>
+#include <conio.h>
 
 board::board(int pNum) //bottom line filled with 1's to represent the floor.
 {

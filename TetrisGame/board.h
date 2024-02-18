@@ -19,25 +19,23 @@ public:
 
 	board(int);
 
-	bool existInMat(point val) const;
 	void print() const;
 	void update(shape& s);
 	bool isGameOver() const;
-	bool deleteLineAndUpdate();
-	void syncBoardToDisplay();
-	void handleFullLines(board& b1, board& b2);
-	int getOffset() const { return offset; }
-	optionalMove bestMove(shape& s) ;
-	bool isFitted(const board& b, shape& s) const;
-	void deleteShapeFromBoard(shape& s);
-	vector <optionalMove> movesThatDeleteLines(vector<optionalMove> posMovesArr);
-	vector <optionalMove> findPossibleMoves(shape& s);
-	void setPlayerType(char c) { pType = c; }
-	char getPlayerType() const { return pType; }
 	void typeInput(int pNum);
-
-
+	void syncBoardToDisplay();
+	bool deleteLineAndUpdate();
+	optionalMove bestMove(shape& s);
+	bool existInMat(point val) const;
+	void deleteShapeFromBoard(shape& s);
+	int getOffset() const { return offset; }
+	void setPlayerType(char c) { pType = c; }
+	void handleFullLines(board& b1, board& b2);
 	void setType(int _pType) { pType = _pType; }
+	char getPlayerType() const { return pType; }
+	bool isFitted(const board& b, shape& s) const;
+	vector <optionalMove> findPossibleMoves(shape& s);
+	vector <optionalMove> movesThatDeleteLines(vector<optionalMove> posMovesArr);
 
 	board& operator=(const board& other)
 	{
