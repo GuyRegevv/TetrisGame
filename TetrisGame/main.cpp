@@ -16,10 +16,8 @@ int main()
 		s = new Starter;
 		newGame = s->lunch();
 	}
-
 	delete s;
 	exit(1);
-	
 
 	return 0;
 }

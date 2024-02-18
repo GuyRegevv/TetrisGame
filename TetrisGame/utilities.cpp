@@ -77,8 +77,10 @@ int gameOver()
 int printMenuAndSelect()
 {	
 	int res;
-	cout << "(1) Start a new game" << endl;
-	cout << "(2) Continue a paused game" << endl;
+	cout << "(1) Start a new game - Human vs Human" << endl;
+	cout << "(2) Start a new game - Human vs Computer" << endl;
+	cout << "(3) Start a new game - Computer vs Computer" << endl;
+	cout << "(4) Continue a paused game" << endl;
 	cout << "(8) Present instructions and keys" << endl;
 	cout << "(9) EXIT" << endl;
 	cin >> res;
@@ -95,7 +97,7 @@ void handlePause() //pausing game until '2' is selected
 	{
 		if (_kbhit())
 			check = _getch();
-		if (check == '2')
+		if (check == '4')
 		{
 			gotoxy(50, 10);
 			cout << "             ";
@@ -274,4 +276,14 @@ void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1)
 		compBestMove = b1.bestMove(shape1);
 		stack1 = computerMoves(shape1, compBestMove);
 	}
+}
+
+char setComputerLevel()
+{
+	char res;
+	cout << "Please choose computer level" << endl;
+	cout << "(a) BEST (b) GOOD and (c) NOVICE" << endl;
+	cin >> res;
+	return res;
+
 }

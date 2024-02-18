@@ -35,6 +35,7 @@ public:
 	char getPlayerType() const { return pType; }
 	void typeInput(int pNum);
 
+	void setType(int _pType) { pType = _pType; }
 
 
 
