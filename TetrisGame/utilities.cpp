@@ -143,7 +143,7 @@ void handleDrawing(shape& s1, shape& s2)
 {
 	s1.drawShape();
 	s2.drawShape();
-	Sleep(100);
+	Sleep(200);
 	s1.drawShape(' ');
 	s2.drawShape(' ');
 }
@@ -312,9 +312,7 @@ void updateCompMoves(board& b1, stack<int>& stack1, shape& shape1, char computer
 	{
 		if (shape1.getSymbol() == '@')
 		{
-			vector<optionalMove> possibleMoves = b1.findPossibleMoves(shape1);
-			optionalMove highest = highestMove(possibleMoves);
-			stack1 = computerMoves(shape1, highest);
+			
 		}
 		else
 		{

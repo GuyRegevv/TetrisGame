@@ -32,11 +32,21 @@ int Starter::lunch()
 
 	char computerLevel;
 
+	if (startingKey == 8)
+	{
+		handleInstructions();
+		gotoxy(0, 0);
+		while ((startingKey = handleGameStart()) == 8)
+		{
+			handleInstructions();
+			gotoxy(0, 0);
+		}
+	}
 	if (startingKey == 1)
 	{
 		b1.setPlayerType('h');
 		b2.setPlayerType('h');
-		
+		computerLevel = 'a';
 	}
 	if (startingKey == 2)
 	{
@@ -50,10 +60,6 @@ int Starter::lunch()
 		b1.setPlayerType('c');
 		b2.setPlayerType('c');
 		computerLevel = setComputerLevel();
-	}
-	if (startingKey == 8)
-	{
-		handleInstructions();
 	}
 	//game starts
 		clrscr();

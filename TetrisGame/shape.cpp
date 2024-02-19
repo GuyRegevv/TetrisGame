@@ -17,9 +17,11 @@ gameConfig conf;
 shape::shape(int pNum) : direction(3), symbol('#')
 {
 	setTextColor((Color)(1 + genRand(14)));
-	if (genRand(50) == 9)
+	if (genRand(20) == 1)
 	{
-		coordinatesToShape(body, conf.BOMB_blockCoordinates);
+		int bombXvalue = genRand(12) + 1;
+		int bombCoords[] = { bombXvalue,1,bombXvalue,1,bombXvalue,1,bombXvalue,1 };
+		coordinatesToShape(body, bombCoords);
 		symbol = '@';
 	}
 	else 
